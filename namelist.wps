@@ -1,0 +1,56 @@
+&share
+ wrf_core = 'ARW',
+ max_dom = 2,
+ start_date ='2025-01-01_00:00:00','2025-01-01_00:00:00',
+ end_date   ='2025-01-02_00:00:00','2025-01-02_00:00:00',
+ interval_seconds = 10800,
+ io_form_geogrid = 2,
+/
+
+&geogrid
+ parent_id         =   1,1,
+ parent_grid_ratio =   1,5,
+ i_parent_start    =   1,80,
+ j_parent_start    =   1,80,
+ e_we              =  200,201,
+ e_sn              =  200,201,
+ !!!geog_data_res = 'default', 'default', 'default',
+ geog_data_res = 'nlcd2011_9s+9s','nlcd2011_9s+9s','nlcd2011_9s+9s',
+ dx = 5000,
+ dy = 5000,
+ map_proj = 'lambert',
+ ref_lat   =  38.5,
+ ref_lon   = -121.5,
+ truelat1  =  38.781,
+ truelat2  =  38.781,
+ stand_lon = -120.000,
+ geog_data_path = '/data/wto/WPS_GEOG'
+/
+
+&ungrib
+ out_format = 'WPS',
+ prefix = 'FILE',
+/
+
+&metgrid
+ fg_name = 'FILE',
+ io_form_metgrid = 2,
+!!! I don' think I need this!!! constants_name = './NARRFIX:1979-11-08_00'
+/
+
+&mod_levs
+ press_pa = 201300, 200100 ,
+            100000,
+             95000, 92500,90000,
+             85000, 80000,
+             75000, 70000,
+             65000, 60000,
+             55000, 50000,
+             45000, 40000,
+             35000, 30000,
+             25000, 20000,
+             15000, 10000,
+              7000, 5000,
+              3000, 1000
+/
+

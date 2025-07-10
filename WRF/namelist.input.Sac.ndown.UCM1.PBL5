@@ -67,6 +67,26 @@
  /
 
  &fdda
+ grid_fdda                           = 1,1,
+ gfdda_inname                        = "wrffdda_d<domain>",
+ gfdda_end_h                         = 999,
+ gfdda_interval_m                    = 180,
+ fgdt                                = 0,
+ if_no_pbl_nudging_uv                = 1,
+ if_no_pbl_nudging_t                 = 1,
+ if_no_pbl_nudging_q                 = 1,
+ if_zfac_uv                          = 0,
+ k_zfac_uv                          = 10,
+ if_zfac_t                           = 0,
+ k_zfac_t                           = 10,
+ if_zfac_q                           = 0,
+ k_zfac_q                           = 10,
+ guv                                 = 0.0003,
+ gt                                  = 0.0003,
+ gq                                  = 0.00001,
+ if_ramping                          = 1,
+ dtramp_min                          = 60.0,
+ rinblw                              = 250.0
  /
 
  &dynamics

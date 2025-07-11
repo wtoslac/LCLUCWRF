@@ -1,22 +1,22 @@
 &time_control
- run_days                            = 1,
+ run_days                            = 30,
  run_hours                           = 0,
  run_minutes                         = 0,
  run_seconds                         = 0,
- start_year                          = 2025,2025,
- start_month                         = 01,01,
+ start_year                          = 2020,2020,
+ start_month                         = 06,06,
  start_day                           = 01,01,
- start_hour                          = 0,0,
- end_year                            = 2025,2025,
- end_month                           = 01, 01,
- end_day                             = 02,02,
- end_hour                            =  00,00,
+ start_hour                          = 00,00,
+ end_year                            = 2020,2020,
+ end_month                           = 06, 06,
+ end_day                             = 30,30,
+ end_hour                            = 21,21,
  interval_seconds                    = 10800
  input_from_file                     = .true.,.true.,
  history_interval                    = 60,60,
  frames_per_outfile                  = 1,1,
  restart                             = .false.,
- restart_interval                    = 7200,
+ restart_interval                    = 10800,
  io_form_history                     = 2
  io_form_restart                     = 2
  io_form_input                       = 2
@@ -24,23 +24,23 @@
  /
 
  &domains
- time_step                           = 8,
+ time_step                           = 25,
  time_step_fract_num                 = 0,
  time_step_fract_den                 = 1,
- max_dom                             = 2,
- e_we				 =  200,201,
- e_sn				 =  200,201,
+ max_dom                             = 1,
+ e_we                                = 300,201,
+ e_sn                                = 300,201,
+ dx                                  = 5000,
+ dy                                  = 5000,
  e_vert                              = 45,45,
  dzstretch_s                         = 1.1
  p_top_requested                     = 5000,
- num_metgrid_levels                  = 34,
+ num_metgrid_levels                  = 38,
  num_metgrid_soil_levels             = 4,
- dx                                  = 5000,
- dy                                  = 5000,
  grid_id                             = 1, 2,
  parent_id                           = 1, 1, 
- i_parent_start                      = 1, 80
- j_parent_start                      = 1, 80
+ i_parent_start                      = 1, 119
+ j_parent_start                      = 1, 148
  parent_grid_ratio                   = 1, 5
  parent_time_step_ratio              = 1, 5
  feedback                            = 1,
@@ -61,7 +61,7 @@
  cudt                                = 0,     0,
  icloud                              = 1,
  num_land_cat                        = 40,
- sf_urban_physics                    = 1,     1,
+ sf_urban_physics                    = 0,     0,
  fractional_seaice                   = 1,
  /
 
@@ -84,7 +84,7 @@
  non_hydrostatic                     = .true., .true., 
  moist_adv_opt                       = 1,      1, 
  scalar_adv_opt                      = 1,      1,  
- gwd_opt                             = 1,      0,  
+ gwd_opt                             = 0,      0,  
  /
 
  &bdy_control
@@ -100,3 +100,4 @@
  nio_tasks_per_group = 0,
  nio_groups = 1,
  /
+ 

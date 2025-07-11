@@ -52,7 +52,7 @@ axs[1].plot(Time_all[359:718], EPAVar[359:718], '.k', label="T(°C) EPA Data")
 axs[1].plot(Time_all[359:718], Var0_all[359:718],linewidth=4, label="WRF FDDA0", color='tab:blue')
 axs[1].plot(Time_all[359:718], Var1_all[359:718],linewidth=3,  label="WRF FDDA1", color='tab:red')
 axs[1].set_ylabel(VarLabel)
-axs[1].set_title(VarLabel +" at 38.593322, -121.503795")
+#axs[1].set_title(VarLabel +" at 38.593322, -121.503795")
 axs[1].grid(True)
 axs[1].legend()
  

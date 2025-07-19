@@ -27,7 +27,7 @@ def MonthTimeSeries(Time, Vals, Title, Labels, Show=False):
 
     if Show:
         # Setup the figure and axes
-        fig, axs = plt.subplots(2, 1, figsize=(12, 8), sharex=False)
+        fig, axs = plt.subplots(2, 1, figsize=(16, 12), sharex=False)
 
         colors = ['tab:blue', 'tab:red', 'tab:green', 'tab:orange']
         markers = ['.k'] + colors  # First is the observed data in black
@@ -45,16 +45,16 @@ def MonthTimeSeries(Time, Vals, Title, Labels, Show=False):
         # === Bottom Subplot ===
         axs[1].plot(Time[359:718], Vals[0][359:718], '.k', label=Labels[0])
         for i in range(1, n_vals):
-            axs[1].plot(Time[359:718], Vals[i][359:718], linewidth=2+(4-i), 
+            axs[1].plot(Time[359:718], Vals[i][359:718], linewidth=1+(4-i), 
                         label=Labels[i], color=colors[i-1])
         axs[1].set_ylabel(Labels[0])
         axs[1].grid(True)
         axs[1].legend()
 
         # Add statistics to the plot (split into two columns)
-        mean_text = "\n".join([f"MeanBias {Labels[i]}: {mean_diffs[i-1]:.2f}" for i in range(1, n_vals)])
-        rmsd_text = "\n".join([f"RMSD     {Labels[i]}: {rmsds[i-1]:.2f}" for i in range(1, n_vals)])
-        ioa_text = "\n".join([f"IOA     {Labels[i]}: {ioas[i-1]:.2f}" for i in range(1, n_vals)])
+        mean_text = "\n".join([f"MeanBias: {Labels[i]}: {mean_diffs[i-1]:.2f}" for i in range(1, n_vals)])
+        rmsd_text = "\n".join([f"RMSD:     {Labels[i]}: {rmsds[i-1]:.2f}" for i in range(1, n_vals)])
+        ioa_text = "\n".join([f"IOA:     {Labels[i]}: {ioas[i-1]:.2f}" for i in range(1, n_vals)])
 
         axs[0].text(0.01, -0.1, mean_text,
                     transform=axs[0].transAxes,

@@ -6,23 +6,34 @@ def MonthTimeSeries(Time, Vals, Title, Labels, Show=False):
     n_vals = len(Vals)
     assert 1 <= n_vals <= 5, "Vals must contain between 1 and 5 elements."
 
-    # Convert Vals[0] to np.array for masking
     ref = np.array(Vals[0])
-    
-    # === Compute Mean Differences, RMSD, and IOA relative to the first series ===
     mean_diffs = []
     rmsds = []
     ioas = []
 
     for i in range(1, n_vals):
         model = np.array(Vals[i])
-        diff = model - ref
+        
+        # Mask to exclude -9999 from Vals[0]
+        valid_mask = ref != -9999
+
+        ref_valid = ref[valid_mask]
+        model_valid = model[valid_mask]
+
+        if len(ref_valid) == 0:
+            # Avoid division by zero or empty arrays
+            mean_diffs.append(np.nan)
+            rmsds.append(np.nan)
+            ioas.append(np.nan)
+            continue
+
+        diff = model_valid - ref_valid
         mean_diffs.append(np.mean(diff))
         rmsds.append(np.sqrt(np.mean(diff ** 2)))
-        
+
         # Index of Agreement (Willmott 1981)
-        numerator = np.sum((model - ref) ** 2)
-        denominator = np.sum((np.abs(model - np.mean(ref)) + np.abs(ref - np.mean(ref))) ** 2)
+        numerator = np.sum((model_valid - ref_valid) ** 2)
+        denominator = np.sum((np.abs(model_valid - np.mean(ref_valid)) + np.abs(ref_valid - np.mean(ref_valid))) ** 2)
         ioa = 1 - numerator / denominator if denominator != 0 else np.nan
         ioas.append(ioa)
 
@@ -30,10 +41,9 @@ def MonthTimeSeries(Time, Vals, Title, Labels, Show=False):
         fig, axs = plt.subplots(2, 1, figsize=(16, 12), sharex=False)
 
         colors = ['tab:blue', 'tab:red', 'tab:green', 'tab:orange']
-        markers = ['.k'] + colors  # First is the observed data in black
+        markers = ['.k'] + colors
 
         # === Top Subplot ===
-        # Apply mask to Vals[0] for -9999
         t_top = np.array(Time[0:359])
         v0_top = np.array(Vals[0][0:359])
         mask_top = v0_top != -9999
@@ -41,7 +51,6 @@ def MonthTimeSeries(Time, Vals, Title, Labels, Show=False):
         for i in range(1, n_vals):
             axs[0].plot(Time[0:359], Vals[i][0:359], linewidth=1+(4-i),
                         label=Labels[i], color=colors[i-1])
-
         axs[0].set_ylabel(Labels[0])
         axs[0].set_title(Title)
         axs[0].grid(True)
@@ -55,7 +64,6 @@ def MonthTimeSeries(Time, Vals, Title, Labels, Show=False):
         for i in range(1, n_vals):
             axs[1].plot(Time[359:718], Vals[i][359:718], linewidth=1+(4-i),
                         label=Labels[i], color=colors[i-1])
-
         axs[1].set_ylabel(Labels[0])
         axs[1].grid(True)
         axs[1].legend()
@@ -76,7 +84,7 @@ def MonthTimeSeries(Time, Vals, Title, Labels, Show=False):
                     fontsize=14,
                     verticalalignment='top',
                     bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.8))
-        
+
         axs[0].text(0.69, -0.1, ioa_text,
                     transform=axs[0].transAxes,
                     fontsize=14,
@@ -87,6 +95,7 @@ def MonthTimeSeries(Time, Vals, Title, Labels, Show=False):
         plt.show()
 
     return [mean_diffs, rmsds, ioas]
+
 
 from netCDF4 import Dataset
 from wrf import getvar, to_np, ll_to_xy, ALL_TIMES

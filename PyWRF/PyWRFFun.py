@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def MonthTimeSeries(Time, Vals, Title, Labels, Show=False):
+def MonthTimeSeries(Time, Vals, Title, YLabel, Legend, Show=False):
     # Ensure Vals has at least one series
     n_vals = len(Vals)
     assert 1 <= n_vals <= 5, "Vals must contain between 1 and 5 elements."
@@ -15,7 +15,7 @@ def MonthTimeSeries(Time, Vals, Title, Labels, Show=False):
         model = np.array(Vals[i])
         
         # Mask to exclude -9999 from Vals[0]
-        valid_mask = ref != -9999
+        valid_mask = (ref != -9999) & (~np.isnan(ref))
 
         ref_valid = ref[valid_mask]
         model_valid = model[valid_mask]
@@ -46,12 +46,12 @@ def MonthTimeSeries(Time, Vals, Title, Labels, Show=False):
         # === Top Subplot ===
         t_top = np.array(Time[0:359])
         v0_top = np.array(Vals[0][0:359])
-        mask_top = v0_top != -9999
-        axs[0].plot(t_top[mask_top], v0_top[mask_top], '.k', label=Labels[0])
+        mask_top = (v0_top != -9999) & (~np.isnan(v0_top))
+        axs[0].plot(t_top[mask_top], v0_top[mask_top], '.k', label=Legend[0])
         for i in range(1, n_vals):
             axs[0].plot(Time[0:359], Vals[i][0:359], linewidth=1+(4-i),
-                        label=Labels[i], color=colors[i-1])
-        axs[0].set_ylabel(Labels[0])
+                        label=Legend[i], color=colors[i-1])
+        axs[0].set_ylabel(YLabel)
         axs[0].set_title(Title)
         axs[0].grid(True)
         axs[0].legend()
@@ -60,18 +60,18 @@ def MonthTimeSeries(Time, Vals, Title, Labels, Show=False):
         t_bot = np.array(Time[359:718])
         v0_bot = np.array(Vals[0][359:718])
         mask_bot = v0_bot != -9999
-        axs[1].plot(t_bot[mask_bot], v0_bot[mask_bot], '.k', label=Labels[0])
+        axs[1].plot(t_bot[mask_bot], v0_bot[mask_bot], '.k', label=Legend[0])
         for i in range(1, n_vals):
             axs[1].plot(Time[359:718], Vals[i][359:718], linewidth=1+(4-i),
-                        label=Labels[i], color=colors[i-1])
-        axs[1].set_ylabel(Labels[0])
+                        label=Legend[i], color=colors[i-1])
+        axs[1].set_ylabel(YLabel)
         axs[1].grid(True)
         axs[1].legend()
 
         # Add statistics to the plot
-        mean_text = "\n".join([f"MeanBias: {Labels[i]}: {mean_diffs[i-1]:.2f}" for i in range(1, n_vals)])
-        rmsd_text = "\n".join([f"RMSD:     {Labels[i]}: {rmsds[i-1]:.2f}" for i in range(1, n_vals)])
-        ioa_text = "\n".join([f"IOA:     {Labels[i]}: {ioas[i-1]:.2f}" for i in range(1, n_vals)])
+        mean_text = "\n".join([f"MeanBias: {Legend[i]:<10} {mean_diffs[i-1]:>{3}.2f}" for i in range(1, n_vals)])
+        rmsd_text = "\n".join([f"RMSD:     {Legend[i]:<10} {rmsds[i-1]:>{3}.2f}" for i in range(1, n_vals)])
+        ioa_text = "\n".join([f"IOA:      {Legend[i]:<10} {ioas[i-1]:>{3}.2f}"    for i in range(1, n_vals)])
 
         axs[0].text(0.01, -0.1, mean_text,
                     transform=axs[0].transAxes,

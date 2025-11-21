@@ -47,10 +47,10 @@ def MonthTimeSeries(Time, Vals, Title, YLabel, Legend, Show=False):
         t_top = np.array(Time[0:359])
         v0_top = np.array(Vals[0][0:359])
         mask_top = (v0_top != -9999) & (~np.isnan(v0_top))
-        axs[0].plot(t_top[mask_top], v0_top[mask_top], '.k', label=Legend[0])
         for i in range(1, n_vals):
             axs[0].plot(Time[0:359], Vals[i][0:359], linewidth=1+(4-i),
-                        label=Legend[i], color=colors[i-1])
+                        label=Legend[i], color=colors[i-1])        
+        axs[0].plot(t_top[mask_top], v0_top[mask_top], '.k', label=Legend[0])
         axs[0].set_ylabel(YLabel)
         axs[0].set_title(Title)
         axs[0].grid(True)
@@ -60,10 +60,10 @@ def MonthTimeSeries(Time, Vals, Title, YLabel, Legend, Show=False):
         t_bot = np.array(Time[359:718])
         v0_bot = np.array(Vals[0][359:718])
         mask_bot = v0_bot != -9999
-        axs[1].plot(t_bot[mask_bot], v0_bot[mask_bot], '.k', label=Legend[0])
         for i in range(1, n_vals):
             axs[1].plot(Time[359:718], Vals[i][359:718], linewidth=1+(4-i),
                         label=Legend[i], color=colors[i-1])
+        axs[1].plot(t_bot[mask_bot], v0_bot[mask_bot], '.k', label=Legend[0])
         axs[1].set_ylabel(YLabel)
         axs[1].grid(True)
         axs[1].legend()

@@ -1,28 +1,31 @@
 &share
  wrf_core = 'ARW',
  max_dom = 2,
- start_date = '2019-09-04_12:00:00','2019-09-04_12:00:00',
- end_date   = '2019-09-06_00:00:00','2019-09-04_12:00:00',
- interval_seconds = 10800
+ start_date ='2020-06-01_00:00:00','2020-06-01_00:00:00',
+ end_date   ='2020-06-30_21:00:00','2020-06-30_21:00:00',
+ interval_seconds = 10800,
+ io_form_geogrid = 2,
 /
 
 &geogrid
- parent_id         =   1,   1,
- parent_grid_ratio =   1,   3,
- i_parent_start    =   1,  53,
- j_parent_start    =   1,  25,
- e_we              =  150, 220,
- e_sn              =  130, 214,
- geog_data_res = 'default','default',
- dx = 15000,
- dy = 15000,
+ parent_id         =   1,1,
+ parent_grid_ratio =   1,5,
+ i_parent_start    =   1,119,
+ j_parent_start    =   1,148,
+ e_we              =  300,201,
+ e_sn              =  300,201,
+ geog_data_res = 'nlcd2011_9s+9s','nlcd2011_9s+9s','nlcd2011_9s+9s',
+ dx = 5000,
+ dy = 5000,
  map_proj = 'lambert',
- ref_lat   =  33.00,
- ref_lon   = -79.00,
- truelat1  =  30.0,
- truelat2  =  60.0,
- stand_lon = -79.0,
- geog_data_path = '/glade/work/wrfhelp/WPS_GEOG/'
+! ref_lat   =  38.5, !Center around Sacramento
+! ref_lon   = -121.5 !Center around Sacramento
+ ref_lat   =  37.525, !Center around Turlock
+ ref_lon   = -120.858 !Center around Turlock
+ truelat1  =  38.781,
+ truelat2  =  38.781,
+ stand_lon = -120.000,
+ geog_data_path = '/data/wto/WPS_GEOG'
 /
 
 &ungrib
@@ -31,5 +34,6 @@
 /
 
 &metgrid
- fg_name = 'FILE'
+ fg_name = '/data/wto/era5_to_int/ERA5',
+ io_form_metgrid = 2,
 /
